@@ -44,4 +44,33 @@ class PostCreateAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
+class PostDetailAPIView(APIView):
+    def get(self, request, id):
+        try:
+            post = Post.objects.get(id=id)
+        except Post.DoesNotExist:
+            return Response(
+                {"detail": "Not found."},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = PostSerializer(post)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+class CommentDetailAPIView(APIView):
+    def get(self, request, id):
+        try:
+            comment = Comment.objects.get(id=id)
+              
+        except Comment.DoesNotExist:
+            return Response(
+                {"detail": "Not found."},
+                status=status.HTTP_404_NOT_FOUND
+            )
+            
+        serializer = CommentSerializer(comment)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
