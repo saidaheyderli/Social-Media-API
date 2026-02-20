@@ -7,13 +7,11 @@ from .serializers import PostSerializer, PostPreviewSerializer, CommentSerialize
 from drf_yasg.utils import swagger_auto_schema
 
 
-
 class PostListAPIView(APIView):
     def get(self, request):
         posts = Post.objects.all().order_by("-created_at")
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
 
 
 class PostPreviewListAPIView(APIView):
@@ -23,13 +21,11 @@ class PostPreviewListAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-
 class CommentListAPIView(APIView):
     def get(self, request):
         comments = Comment.objects.all().order_by("-likes_count")
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
 
 
 class PostCreateAPIView(APIView):
@@ -44,7 +40,6 @@ class PostCreateAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
 class PostDetailAPIView(APIView):
     def get(self, request, id):
         try:
@@ -54,17 +49,14 @@ class PostDetailAPIView(APIView):
                 {"detail": "Not found."},
                 status=status.HTTP_404_NOT_FOUND
             )
-
         serializer = PostSerializer(post)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
 
 
 class CommentDetailAPIView(APIView):
     def get(self, request, id):
         try:
-            comment = Comment.objects.get(id=id)
-              
+            comment = Comment.objects.get(id=id) 
         except Comment.DoesNotExist:
             return Response(
                 {"detail": "Not found."},
